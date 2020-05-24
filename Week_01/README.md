@@ -9,13 +9,141 @@
 ### 数组ArrayList、链表Linked List、跳表Skip List
 
 + [Java 源码分析（ArrayList）](http://developer.classpath.org/doc/java/util/ArrayList-source.html)
-+ [Linked List 的标准实现代码](http://www.geeksforgeeks.org/implementing-a-linked-list-in-java-using-class/)
-+ [Linked List 示例代码](http://www.cs.cmu.edu/~adamchik/15-121/lectures/Linked Lists/code/LinkedList.java)
-+ [Java 源码分析（LinkedList）](http://developer.classpath.org/doc/java/util/LinkedList-source.html)
 
-相关应用：LRU缓存机制——Linked List、Redis——Skip List
++ [Linked List 的标准实现代码](http://www.geeksforgeeks.org/implementing-a-linked-list-in-java-using-class/)
+
++ [Linked List 示例代码](http://www.cs.cmu.edu/~adamchik/15-121/lectures/Linked Lists/code/LinkedList.java)
+
++ [Java 源码分析（LinkedList）](http://developer.classpath.org/doc/java/util/LinkedList-source.html)
+	java的LinkedList实现的是一个双向链表，实现亮点和细节如下：
+
+  + 如何对链表判空：首节点`first == null;`
+
+  - 查找给定`index下标`的元素，首先判断下标位置是在链表前半段还是后半段，再决定从头部还是尾部开始查找。
+
+    ```java
+    Entry<T> getEntry(int n) {
+      Entry<T> e;
+      if (n < size / 2) {
+      	e = first;
+      	// n less than size/2, iterate from start
+      	while (n-- > 0)
+      		e = e.next;
+      } else {
+      	e = last;
+      	// n greater than size/2, iterate from end
+      	while (++n < size)
+      		e = e.previous;
+      }
+      return e;
+    }
+    ```
+
+相关应用：LRU缓存机制——LinkedList、Redis——Skip List
 
 > 跳表Skip List仅仅适用于元素有序的情况下，通过有序这个额外信息构造出更高维度的信息结构实现加速查找复杂度是O(logn)。但是代价是删除插入的时间复杂度也会从O(1)上升到O(logn)。
+
+LRU缓存机制:双向链表 + 哈希查找
+
+```java
+package Week_01;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/*
+ * @lc app=leetcode.cn id=146 lang=java
+ *
+ * [146] LRU缓存机制
+ */
+
+// @lc code=start
+class LRUCache {
+    int size;
+    int cap;
+    // 伪头部，尾部——避免插入到头部和尾部使得判断
+    DLinkedNode head;
+    DLinkedNode tail;
+    Map<Integer, DLinkedNode> cache = new HashMap<Integer, DLinkedNode>();
+    public LRUCache(int capacity) {
+        cap = capacity;
+        size = 0;
+        head = new DLinkedNode();
+        tail = new DLinkedNode();
+        head.next = tail;
+        tail.pre = head;
+    }
+    
+    public int get(int key) {
+        DLinkedNode node = cache.get(key);
+        if (node == null) {
+            return -1;
+        }
+        if (node != head.next) {
+            removeEntry(node);
+            addFirst(node);
+        }
+        return node.value;
+    }
+    public void put(int key, int value) {
+        DLinkedNode node = cache.get(key);
+        if (node == null) {
+            DLinkedNode dLinkedNode = new DLinkedNode(key, value);
+            cache.put(key, dLinkedNode);
+            if (size == cap) {
+                cache.remove(tail.pre.key);
+                removeEntry(tail.pre);
+            }
+            addFirst(dLinkedNode);
+        }
+        else {
+            node.value = value;
+            removeEntry(node);
+            addFirst(node);
+        }
+    }
+
+
+    void addFirst(DLinkedNode dLinkedNode) {
+        dLinkedNode.next = head.next;
+        dLinkedNode.pre = head;
+        head.next.pre = dLinkedNode;
+        head.next = dLinkedNode;
+        size ++;
+    }
+
+    
+    void removeEntry(DLinkedNode dLinkedNode) {
+        dLinkedNode.pre.next = dLinkedNode.next;
+        dLinkedNode.next.pre = dLinkedNode.pre;
+        size --;
+    }
+
+    private static final class DLinkedNode {
+        int key;
+        int value;
+        DLinkedNode next;
+        DLinkedNode pre;
+        DLinkedNode (int k, int v) {
+            key = k;
+            value = v;
+        }
+        DLinkedNode () {
+            
+        }
+    }
+}
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache obj = new LRUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
+// @lc code=end
+```
+
+![](https://github.com/zjlyyq/algorithm009-class01/blob/master/Week_01/static/imgs/DLinkedList_HashMap.png?raw=true)
 
 ### 刷题策略之五毒神掌
 
@@ -148,7 +276,7 @@
   }
   ```
 
-  ![](/Users/jialuzhang/MyCode/algorithm009-class01/Week_01/static/imgs/xn1.png)
+  ![](https://github.com/zjlyyq/algorithm009-class01/blob/master/Week_01/static/imgs/xn1.png?raw=true)
 
   **双向链表实现**
 
@@ -309,3 +437,4 @@
 
   
 
+  
