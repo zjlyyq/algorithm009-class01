@@ -1,8 +1,10 @@
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
 <div style="text-align:center;">
    <h2>
      第一周笔记以及作业
   </h2>
 </div>
+
 
 
 
@@ -178,7 +180,6 @@ class LRUCache {
     </div> 
   </div>
   
-   
   
 - 分析 Queue 和 Priority Queue 的源码
 
@@ -435,6 +436,23 @@ class LRUCache {
 
 - [接雨水](https://leetcode.com/problems/trapping-rain-water/)（亚马逊、字节跳动、高盛集团、Facebook 在半年内面试常考）
 
+  每一根柱子之上的积水区都是左右两边最近的更高的柱子包裹起来的，如果左右两边至少一边没有比该根柱子更高的柱子，那么上方就不会有积水。我们可以用一个leftPos数组和一个rightPos数组保存每根柱子左右两边最近的高于自己的柱子的下标，找不到就设为-1。则第i根柱子上方的积水体积为：
+
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
+  
+  $$x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}$$\\(x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}\\)
+  $$ { (leftPos[i] = -1 or rightPos[i] = -1}
+  S[i] =
+  $$
+  **```**
+  
+  ```
+  $$x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}$$\\(x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}\\)
+  ```
+  
+  **```**
+  
+  
+  
   
 
-  
