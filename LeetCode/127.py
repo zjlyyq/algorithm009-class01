@@ -1,6 +1,6 @@
 class Solution:
-    leastTimes = -1
-    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+    def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
+        res = []
         cache = set()
         pathDict = {}
         wordDict = set(wordList)
@@ -18,10 +18,10 @@ class Solution:
                 print('cur:' + cur)
                 if cur == endWord: 
                     t = endWord
+                    t_list = []
                     while t != None:
-                        print(t)
-                        print('--->')
                         t = pathDict[t]
+                        
                     return count;
                 for j in range(lenOfString):
                     for x in range(26):
