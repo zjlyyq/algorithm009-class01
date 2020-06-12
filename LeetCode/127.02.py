@@ -18,7 +18,7 @@ class Solution:
             for i in range(queueSize):
                 cur = queue.pop(0)
                 if cur == endWord:
-                    flag = False
+                    # flag = False
                     # print(pathDict[cur])
                     continue
                 for j in range(lenOfString):
@@ -27,8 +27,10 @@ class Solution:
                         # print(newStr)
                         if (newStr not in cache or newStr == endWord) and (newStr in wordDict):
                             queue.append(newStr)
-                            if newStr not in pathDict: pathDict[newStr] = [cur]
-                            else if (newStr in pathDict) and (cur not in pathDict[newStr]): pathDict[newStr] = pathDict[newStr]+ [cur]
+                            if newStr not in pathDict: 
+                                pathDict[newStr] = set()
+                                pathDict[newStr].add(cur)
+                            else: pathDict[newStr].add(cur)
                             nextLevel.append(newStr)
             for node in nextLevel:
                 queue.append(node)
@@ -54,3 +56,6 @@ class Solution:
             arr = pathArr+[]
             self.dfs(dict, i, endStr, arr, res)
 
+
+
+wordList = 
