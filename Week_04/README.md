@@ -23,8 +23,8 @@
 
 2. 邻接矩阵
 
-   ```
-   
+   ```bsh
+   ...
    ```
 
 #### 深度优先遍历
@@ -34,6 +34,19 @@
 3. 回溯：当前节点访问信息恢复为：`visited: false`
 
 #### 广度优先遍历
+
+1. 使用队列
+
+2. 每一次循环获取队列大小 `q_size`，子循环 `q_size` 次，
+
+   ```python
+   while queue:
+   	# process ...
+   	q_size = len(queue)
+   	# 子循环 q_size 次
+   	for i in range(q_size):
+   		...
+   ```
 
 ### 贪心
 
@@ -51,5 +64,41 @@
 
 怎么证明贪心的正确性
 
+### 二分查找
 
+时间复杂度(O(logN))
+
+#### 二分常见变种
+
+1. 查找升序数组arr中第一个大于target的下标：
+
+   ```python
+   def binary_search_fitst_bigger(arr, target):
+     left, right = 0, len(arr) - 1
+     while left <= right:
+       mid = (left+right) // 2
+       if arr[mid] > target: 
+         right = mid - 1
+       else: 
+         left = mid + 1
+     # 上述过程保证了在 left <= right的范围内，right的最终位置肯定是满足arr[right] < target的，
+   # return left if left < len(arr) else -1  
+     return right+1 if right < len(arr) - 1 else -1
+   ```
+
+2. 查找升序数组中最后一个大于target的下标
+
+   ```python
+   def binary_search_lastest_smaller(arr, target):
+     left, right = 0, len(arr) - 1
+     while left <= right:
+       mid = (left+right) // 2
+       if arr[mid] < target: 
+           left = mid + 1
+       else: 
+           right = mid - 1
+     return left - 1
+   ```
+
+   
 
