@@ -1,3 +1,5 @@
+package LeetCode;
+
 class Solution {
     ArrayList<Integer> sum1 = new ArrayList<>();  //正对角线的和
     ArrayList<Integer> sum2 = new ArrayList<>();  //反对角线的和
@@ -43,7 +45,7 @@ class Solution {
                     sum2.add(row - col);
                     backTrack(row+1, n);
                     sum1.remove((Object)(row+col));
-                    sum2.remove((Object)(row - col));
+                    sum2.remove((Object)(row-col));
                     cols.remove(col);
                     tmpList.remove((Object)(col));
                 } 
