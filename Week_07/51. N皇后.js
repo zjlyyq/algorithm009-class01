@@ -2,9 +2,9 @@
  * @param {number} n
  * @return {number}
  */
-var totalNQueens = function(n) {
-    // 根据列占用信息，对角线，反对角线判断落子是否合法
-    function check(row, col) {
+var solveNQueens = function(n) {
+    // 根据列信息，对角线信息，反对角线信息判断落子是否合法
+    function check(row, col, cols, lines, lines_rev) {
         for(let i = 0;i < cols.length;i ++) {
             if (cols[i] == col || lines[i] == row+col || lines_rev[i] == col-row){
                 return false;
@@ -23,26 +23,17 @@ var totalNQueens = function(n) {
         }
         ans.push(solve);
     } 
-    function dfs(row) {
+    function dfs(row, cols, lines, lines_rev) {
         if (row == n) {
-            ans += 1;
+            output(cols);
         }
         for (let i = 0;i < n;i ++) {
-            // 剪枝
-            if (check(row, i)) {
-                cols.push(i);
-                lines.push(row+i);
-                lines_rev.push(i-row);
-                dfs(row+1);
-                // 回溯
-                cols.pop();
-                lines.pop(); 
-                lines_rev.pop();
+            if (check(row, i, cols, lines, lines_rev)) {
+                dfs(row+1, cols.concat([i]), lines.concat(row+i), lines_rev.concat(i-row));
             }
         }
     }
-    let cols = [], lines = [], lines_rev = [], ans = 0;
-    dfs(0);
-    // console.log(ans)
+    let ans = []
+    dfs(0, [], [], []);
     return ans;
 };
